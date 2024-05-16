@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { View, Text, TextInput, Button, StyleSheet, ScrollView } from 'react-native';
+import { View, Text, TextInput, Button, StyleSheet, ScrollView,Pressable } from 'react-native';
 import { initializeApp } from '@firebase/app';
 import { getAuth, createUserWithEmailAndPassword, signInWithEmailAndPassword, onAuthStateChanged, signOut } from '@firebase/auth';
 import { Link } from 'expo-router';
@@ -54,8 +54,16 @@ const AuthenticatedScreen = ({ user, handleAuthentication }) => {
     <View style={styles.authContainer}>
       <Text style={styles.title}>Welcome</Text>
       <Text style={styles.emailText}>{user.email}</Text>
-      <Link href="./home">Go To Home</Link>
-      <Button title="Logout" onPress={handleAuthentication} color="#e74c3c" />
+      <View style={styles.buttonGroup}>
+        <Link href="/home" asChild>
+          <View style={styles.buttonContainer}>
+            <Button title="Menu" color="#00FF00" />
+          </View>
+        </Link>
+        <View style={styles.buttonContainer}>
+          <Button title="Logout" onPress={handleAuthentication} color="#e74c3c" />
+        </View>
+      </View>
     </View>
   );
 };
