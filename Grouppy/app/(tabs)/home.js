@@ -13,6 +13,7 @@ const firebaseConfig = {
   appId: "1:267607572756:web:a9901c3d7047d8d4320201"
 };
 
+// Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const db = getFirestore(app);
 const auth = getAuth(app);
@@ -23,19 +24,28 @@ const Home = () => {
   const [user, setUser] = useState(null);
 
   useEffect(() => {
+    // Sign in anonymously
     const signIn = async () => {
-      const result = await signInAnonymously(auth);
-      setUser(result.user);
+      try {
+        const result = await signInAnonymously(auth);
+        setUser(result.user);
+      } catch (error) {
+        console.error("Error signing in anonymously: ", error);
+      }
     };
 
     signIn();
 
+    // Auth state change listener
     const unsubscribeAuth = onAuthStateChanged(auth, (user) => {
       if (user) {
         setUser(user);
+      } else {
+        setUser(null);
       }
     });
 
+    // Firestore query and listener
     const q = query(collection(db, 'messages'), orderBy('createdAt', 'desc'));
     const unsubscribeMessages = onSnapshot(q, (snapshot) => {
       const messages = snapshot.docs.map(doc => ({
@@ -45,6 +55,7 @@ const Home = () => {
       setMessages(messages);
     });
 
+    // Cleanup listeners on unmount
     return () => {
       unsubscribeAuth();
       unsubscribeMessages();
@@ -53,12 +64,16 @@ const Home = () => {
 
   const handleSend = async () => {
     if (message.trim() && user) {
-      await addDoc(collection(db, 'messages'), {
-        text: message,
-        createdAt: new Date(),
-        user: `User-${user.uid.substring(0, 5)}`  // Display part of the UID to identify users
-      });
-      setMessage('');
+      try {
+        await addDoc(collection(db, 'messages'), {
+          text: message,
+          createdAt: new Date(),
+          user: `User-${user.uid.substring(0, 5)}`  // Display part of the UID to identify users
+        });
+        setMessage('');
+      } catch (error) {
+        console.error("Error sending message: ", error);
+      }
     }
   };
 
