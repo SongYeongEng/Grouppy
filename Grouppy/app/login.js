@@ -55,11 +55,11 @@ const AuthenticatedScreen = ({ user, handleAuthentication }) => {
       <Text style={styles.title}>Welcome</Text>
       <Text style={styles.emailText}>{user.email}</Text>
       <View style={styles.buttonGroup}>
-        <Link href="/home" asChild>
-          <View style={styles.buttonContainer}>
-            <Button title="Menu" color="#00FF00" />
-          </View>
-        </Link>
+      <Link href="/home" asChild>
+        <Pressable style={styles.button}>
+          <Text style={styles.buttonText}>Home</Text>
+        </Pressable>
+      </Link>
         <View style={styles.buttonContainer}>
           <Button title="Logout" onPress={handleAuthentication} color="#e74c3c" />
         </View>
@@ -157,6 +157,21 @@ const styles = StyleSheet.create({
   },
   buttonContainer: {
     marginBottom: 16,
+  },
+  button: {
+    backgroundColor: '#00FF00',
+    padding: 10,
+    borderRadius: 5,
+    alignItems: 'center',
+    marginVertical: 5,
+  },
+  buttonText: {
+    color: '#fff',
+    fontSize: 16,
+    fontWeight: 'bold',
+  },
+  logoutButton: {
+    backgroundColor: '#e74c3c',
   },
   toggleText: {
     color: '#3498db',
