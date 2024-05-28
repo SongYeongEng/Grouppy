@@ -2,6 +2,7 @@
   "name": "grouppy",
   "main": "expo-router/entry",
   "version": "1.0.0",
+  "scheme": "what-is-scheme",
   "scripts": {
     "start": "expo start",
     "reset-project": "node ./scripts/reset-project.js",
