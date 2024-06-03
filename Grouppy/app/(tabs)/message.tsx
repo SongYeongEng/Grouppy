@@ -1,12 +1,12 @@
 import React, { useState, useEffect } from 'react';
 import { View, Text, FlatList, TextInput, Button, StyleSheet } from 'react-native';
 import axios from 'axios';
-import { REACT_APP_API_URL } from '@env';
 
 type Message = {
-  id: number; // Ensure you have a unique ID for each message
-  user: string;
+  id: number;
+  sender_id:  number;
   content: string;
+  timestamp: string;
 };
 
 const MessageScreen = () => {
@@ -26,18 +26,24 @@ const MessageScreen = () => {
         fetchData();
     }, []);
 
-    // const sendMessage = async () => {
-    //     try {
-    //         const response = await axios.post('http://10.0.2.2:8080/messages', {
-    //             user: 'User', // Replace with dynamic user
-    //             content: newMessage
-    //         });
-    //         setMessages([...messages, response.data]);
-    //         setNewMessage('');
-    //     } catch (error) {
-    //         console.error('Error sending message:', error);
-    //     }
-    // };
+    const sendMessage = async () => {
+        try {
+            const response = await axios.post(`${process.env.REACT_APP_API_URL}/messages`, {
+                sender: '2', // Replace with dynamic user
+                content: newMessage,
+                timestamp: new Date().toISOString() 
+            });
+
+            if (response.status === 200) {
+                setNewMessage(''); // clear the input field
+                setMessages([...messages, response.data]); // add the new message to the list
+            }
+
+
+        } catch (error) {
+            console.error('Error sending message:', error);
+        }
+    };
 
     return (
         <View style={styles.container}>
@@ -47,7 +53,7 @@ const MessageScreen = () => {
                 keyExtractor={(item) => item.id.toString()}
                 renderItem={({ item }) => (
                     <View style={styles.message}>
-                        <Text style={styles.messageUser}>{item.user}</Text>
+                        <Text style={styles.messageUser}>{item.id}</Text>
                         <Text style={styles.messageText}>{item.content}</Text>
                     </View>
                 )}
@@ -58,7 +64,7 @@ const MessageScreen = () => {
                 onChangeText={setNewMessage}
                 placeholder="Type a message..."
             />
-            {/* <Button title="Send" onPress={sendMessage} /> */}
+            <Button title="Send" onPress={sendMessage} />
         </View>
     );
 };
