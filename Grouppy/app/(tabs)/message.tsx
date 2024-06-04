@@ -4,7 +4,7 @@ import axios from 'axios';
 
 type Message = {
   id: number;
-  sender_id:  number;
+  sender:  number;
   content: string;
   timestamp: string;
 };
@@ -50,10 +50,10 @@ const MessageScreen = () => {
             <FlatList
                 contentContainerStyle={styles.messagesContainer}
                 data={messages}
-                keyExtractor={(item) => item.id.toString()}
+                keyExtractor={(item) => item.sender.toString()}
                 renderItem={({ item }) => (
                     <View style={styles.message}>
-                        <Text style={styles.messageUser}>{item.id}</Text>
+                        <Text style={styles.messageUser}>{item.sender}</Text>
                         <Text style={styles.messageText}>{item.content}</Text>
                     </View>
                 )}
