@@ -16,7 +16,7 @@ const MessageScreen = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`${process.env.REACT_APP_API_URL}/messages`); // Use appropriate IP for emulator ipv4  
+                const response = await axios.get(`http://localhost:8080/messages`); // Use appropriate IP for emulator ipv4  
                 setMessages(response.data);
             } catch (error) {
                 console.error('Error fetching messages:', error);
@@ -28,7 +28,7 @@ const MessageScreen = () => {
 
     const sendMessage = async () => {
         try {
-            const response = await axios.post(`${process.env.REACT_APP_API_URL}/messages`, {
+            const response = await axios.post(`http://localhost:8080/messages`, {
                 sender: '2', // Replace with dynamic user
                 content: newMessage,
                 timestamp: new Date().toISOString() 
