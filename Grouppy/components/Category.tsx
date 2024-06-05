@@ -8,25 +8,25 @@ export default function ThreeButtonComponent() {
       <TouchableOpacity style={styles.button}>
         <Image 
           style={styles.image} 
-          source={require('../assets/images/coffee.svg')} 
+          source={require('../assets/images/donuts.png')} 
         />
       </TouchableOpacity>
       <TouchableOpacity style={styles.button}>
         <Image 
           style={styles.image} 
-          source={require('../assets/images/french fries.svg')} 
+          source={require('../assets/images/donuts.png')} 
         />
       </TouchableOpacity>
       <TouchableOpacity style={styles.button}>
         <Image 
           style={styles.image} 
-          source={require('../assets/images/donuts.svg')} 
+          source={require('../assets/images/donuts.png')} 
         />
       </TouchableOpacity>
       <TouchableOpacity style={styles.button}>
         <Image 
           style={styles.image} 
-          source={require('../assets/images/more.svg')} 
+          source={require('../assets/images/donuts.png')} 
         />
       </TouchableOpacity>
     </View>

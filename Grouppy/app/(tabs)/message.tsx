@@ -48,15 +48,15 @@ const MessageScreen = () => {
     return (
         <View style={styles.container}>
             <FlatList
-                contentContainerStyle={styles.messagesContainer}
-                data={messages}
-                keyExtractor={(item) => item.sender.toString()}
-                renderItem={({ item }) => (
-                    <View style={styles.message}>
-                        <Text style={styles.messageUser}>{item.sender}</Text>
-                        <Text style={styles.messageText}>{item.content}</Text>
-                    </View>
-                )}
+            contentContainerStyle={styles.messagesContainer}
+            data={messages}
+            keyExtractor={(item) => item.id.toString()}
+            renderItem={({ item }) => (
+                <View style={styles.message}>
+                <Text style={styles.messageUser}>{item.sender}</Text>
+                <Text style={styles.messageText}>{item.content}</Text>
+                </View>
+            )}
             />
             <TextInput
                 style={styles.input}
