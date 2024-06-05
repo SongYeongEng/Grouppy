@@ -1,20 +1,21 @@
 import { Dimensions, StyleSheet, Text, View, Image, ScrollView } from 'react-native'
-import React, { useState } from 'react'
+import React, { useState, useRef, useEffect  } from 'react'
 
 export default function AppCarousel() {
   const [currentImageIndex, setCurrentImageIndex] = useState(0)
   const width = Dimensions.get('window').width
+  const scrollViewRef = useRef<ScrollView>(null)
 
   const list = [
     {
       id: 1,
       title: 'First Item',
-      image: { uri: 'https://assets-global.website-files.com/62d84e447b4f9e7263d31e94/6557420216a456cfaef685c0_6399a4d27711a5ad2c9bf5cd_ben-sweet-2LowviVHZ-E-unsplash-1-p-1600.jpg' }
+      image: { uri: 'https://www.everydayonsales.com/wp-content/uploads/2023/11/McDonalds-Buy-1-Free-1-McCafe-Drinks-Promotion.jpg' }
     },
     {
       id: 2,
       title: 'Second Item',
-      image: { uri: 'https://assets-global.website-files.com/62d84e447b4f9e7263d31e94/6399a303b3be9e0757bfbb67_edi-libedinsky-1bhp9zBPHVE-unsplash-1-1024x683.jpeg' }
+      image: { uri: 'https://www.everydayonsales.com/wp-content/uploads/2023/06/Dominos-Pizza-Buy-1-Free-1-Promo.jpg' }
     },
   ]
 
@@ -27,14 +28,30 @@ export default function AppCarousel() {
     }
   }
 
+  useEffect(() => {
+    const intervalId = setInterval(() => {
+      setCurrentImageIndex(prevIndex => {
+        const newIndex = (prevIndex + 1) % list.length
+        if (scrollViewRef.current) {
+          scrollViewRef.current.scrollTo({ x: newIndex * width, animated: true })
+        }
+        return newIndex
+      })
+    }, 2000) // Change image every 2 seconds
+
+    return () => clearInterval(intervalId) // Clear interval on component unmount
+  }, [])
+
   return (
-    <View style={{ flex: 1 }}>
+    <View >
       <ScrollView
+        ref={scrollViewRef}
         horizontal
         pagingEnabled
         onScroll={handleScroll}
         scrollEventThrottle={16}
         showsHorizontalScrollIndicator={false}
+        style={{ height: 350 }}
       >
         {list.map((item, index) => (
           <View key={index} style={styles.CarouselItem}>
@@ -49,12 +66,14 @@ export default function AppCarousel() {
 const styles = StyleSheet.create({
   CarouselItem: {
     flex: 1,
-    justifyContent: 'center',
+    marginTop: 20,
+    alignItems: 'center',
     overflow: 'hidden',
     width: Dimensions.get('window').width, // set width to screen width
   },
   img: {
-    width: '100%',
-    height: '100%'
+    width: '90%',
+    height: '100%',
+    borderRadius: 15,
   }
 })
