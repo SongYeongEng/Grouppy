@@ -4,9 +4,9 @@ import axios from 'axios';
 
 type Message = {
   id: number;
-  sender:  number;
-  content: string;
-  timestamp: string;
+  user_id: number;
+  message_text: string;
+  created_at: string;
 };
 
 const MessageScreen = () => {
@@ -16,8 +16,14 @@ const MessageScreen = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/messages`); // Use appropriate IP for emulator ipv4  
-                setMessages(response.data);
+                const response = await axios.get(`http://localhost:8080/messages`);
+                const formattedMessages = response.data.map((message: any) => ({
+                    id: message.messageId,
+                    user_id: message.user.userId,
+                    message_text: message.messageText,
+                    created_at: message.createdAt
+                }));
+                setMessages(formattedMessages);
             } catch (error) {
                 console.error('Error fetching messages:', error);
             }
@@ -29,16 +35,15 @@ const MessageScreen = () => {
     const sendMessage = async () => {
         try {
             const response = await axios.post(`http://localhost:8080/messages`, {
-                sender: '2', // Replace with dynamic user
-                content: newMessage,
-                timestamp: new Date().toISOString() 
+                user_id: 2, // Replace with dynamic user
+                message_text: newMessage,
+                created_at: new Date().toISOString() 
             });
 
             if (response.status === 200) {
-                setNewMessage(''); // clear the input field
-                setMessages([...messages, response.data]); // add the new message to the list
+                setNewMessage('');
+                setMessages([...messages, response.data]);
             }
-
 
         } catch (error) {
             console.error('Error sending message:', error);
@@ -48,15 +53,15 @@ const MessageScreen = () => {
     return (
         <View style={styles.container}>
             <FlatList
-            contentContainerStyle={styles.messagesContainer}
-            data={messages}
-            keyExtractor={(item) => item.id.toString()}
-            renderItem={({ item }) => (
-                <View style={styles.message}>
-                <Text style={styles.messageUser}>{item.sender}</Text>
-                <Text style={styles.messageText}>{item.content}</Text>
-                </View>
-            )}
+                contentContainerStyle={styles.messagesContainer}
+                data={messages}
+                keyExtractor={(item) => (item ? item.id.toString() : '')}
+                renderItem={({ item }) => (
+                    <View style={styles.message}>
+                        <Text style={styles.messageUser}>{item.user_id}</Text>
+                        <Text style={styles.messageText}>{item.message_text}</Text>
+                    </View>
+                )}
             />
             <TextInput
                 style={styles.input}
