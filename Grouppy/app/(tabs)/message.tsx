@@ -6,7 +6,7 @@ type Message = {
   id: number;
   user_id: number;
   message_text: string;
-  created_at: string;
+ // created_at: string;
 };
 
 const MessageScreen = () => {
@@ -35,14 +35,21 @@ const MessageScreen = () => {
     const sendMessage = async () => {
         try {
             const response = await axios.post(`http://localhost:8080/messages`, {
-                user_id: 2, // Replace with dynamic user
-                message_text: newMessage,
-                created_at: new Date().toISOString() 
+                user: 2, // Replace with dynamic user
+                room: 2, // Replace with dynamic room
+                messageText: newMessage,
+
             });
 
             if (response.status === 200) {
                 setNewMessage('');
-                setMessages([...messages, response.data]);
+                console.log('Backend response:', response.data);
+                const newMessageData = {
+                    id: response.data.messageId, // Assuming response.data contains the new message data
+                    user_id: response.data.user.userId,
+                    message_text: response.data.messageText,
+                };
+                setMessages([...messages, newMessageData]);
             }
 
         } catch (error) {
@@ -55,7 +62,7 @@ const MessageScreen = () => {
             <FlatList
                 contentContainerStyle={styles.messagesContainer}
                 data={messages}
-                keyExtractor={(item) => (item ? item.id.toString() : '')}
+                keyExtractor={(item) => (item?.id ? item.id.toString() : '')}
                 renderItem={({ item }) => (
                     <View style={styles.message}>
                         <Text style={styles.messageUser}>{item.user_id}</Text>
