@@ -3,6 +3,8 @@ import { View, StyleSheet, TextInput } from 'react-native';
 import Carousel from '@/components/Carousel';
 import AntDesign from '@expo/vector-icons/build/AntDesign';
 import Category from '@/components/Category';
+import CardButton from '@/components/CardButton';
+
 
 export default function Tab() {
   return (
@@ -13,6 +15,9 @@ export default function Tab() {
       </View>
       <Carousel/>
       <Category/>
+      <CardButton title="JoinRoom1" onPress={() => console.log('Button pressed')} />
+      <CardButton title="JoinRoom2" onPress={() => console.log('Button pressed')} />
+      <CardButton title="JoinRoom3" onPress={() => console.log('Button pressed')} />
     </View>
   );
 }
