@@ -1,5 +1,6 @@
 import React, { useCallback } from 'react';
 import { View, StyleSheet, TextInput, Alert } from 'react-native';
+import { router } from 'expo-router';
 import Carousel from '@/components/Carousel';
 import AntDesign from '@expo/vector-icons/AntDesign';
 import Category from '@/components/Category';
@@ -21,6 +22,12 @@ export default function Tab() {
         Alert.alert('Error', errorText || 'Failed to join room');
         return;
       }
+          // Assuming the response contains the room ID
+    const data = await response.text();
+   //const joinedRoomId = data.roomId;
+
+    // Navigate to the message screen with the room ID
+    router.replace('/message');
 
       Alert.alert('Success', 'Successfully joined room');
     } catch (error) {
