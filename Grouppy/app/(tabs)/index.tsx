@@ -1,5 +1,5 @@
 import React, { useCallback } from 'react';
-import { View, StyleSheet, TextInput, Alert } from 'react-native';
+import { View, StyleSheet, TextInput, Alert, ScrollView, TouchableOpacity, Text } from 'react-native';
 import { router } from 'expo-router';
 import Carousel from '@/components/Carousel';
 import AntDesign from '@expo/vector-icons/AntDesign';
@@ -10,7 +10,7 @@ export default function Tab() {
   const handleJoinRoom = useCallback(async (roomId: number) => {
     const userId = 3; // Replace with actual user ID
     try {
-      const response = await fetch(`http://localhost:8080/rooms/${roomId}/join?userId=${userId}`, {
+      const response = await fetch(`http://192.168.101.94:8080/rooms/${roomId}/join?userId=${userId}`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -22,7 +22,7 @@ export default function Tab() {
         Alert.alert('Error', errorText || 'Failed to join room');
         return;
       }
-          // Assuming the response contains the room ID
+    // Assuming the response contains the room ID
     const data = await response.text();
    //const joinedRoomId = data.roomId;
 
@@ -38,16 +38,23 @@ export default function Tab() {
 
   return (
     <View style={styles.container}>
-      <View style={styles.searchContainer}>
-        <TextInput placeholder="Search for food, hotels" />
-        <AntDesign name="search1" size={24} color="#E52B50" />
-      </View>
-      <Carousel />
-      <Category />
-      <CardButton title="Join Room 1" onPress={() => handleJoinRoom(1)} />
-      <CardButton title="Join Room 2" onPress={() => handleJoinRoom(2)} />
-      <CardButton title="Join Room 4" onPress={() => handleJoinRoom(4)} />
+      <ScrollView style={styles.container}>
+          <View style={styles.searchContainer}>
+            <TextInput placeholder="Search for food, hotels" />
+            <AntDesign name="search1" size={24} color="#E52B50" />
+          </View>
+          <Carousel />
+          <Category />
+          <CardButton title="Join Room 1" onPress={() => handleJoinRoom(1)} />
+          <CardButton title="Join Room 2" onPress={() => handleJoinRoom(2)} />
+          <CardButton title="Join Room 4" onPress={() => handleJoinRoom(4)} />
+      </ScrollView>
+      <TouchableOpacity style={styles.addButton}>
+        <Text style={styles.addButtonText}>+</Text>
+      </TouchableOpacity>
     </View>
+
+    
   );
 }
 
@@ -67,5 +74,21 @@ const styles = StyleSheet.create({
     borderRadius: 11,
     marginTop: 10,
     marginHorizontal: 10,
+  },
+  addButton: {
+    position: 'absolute',
+    right: 30,
+    bottom: 30,
+    width: 60,
+    height: 60,
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#E52B50',
+    borderRadius: 30,
+  },
+  addButtonText: {
+    color: 'white',
+    fontSize: 30,
+    fontWeight: 'bold',
   },
 });

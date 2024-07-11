@@ -14,19 +14,19 @@ export default function ThreeButtonComponent() {
       <TouchableOpacity style={styles.button}>
         <Image 
           style={styles.image} 
-          source={require('../assets/images/donuts.png')} 
+          source={require('../assets/images/rice.png')} 
         />
       </TouchableOpacity>
       <TouchableOpacity style={styles.button}>
         <Image 
           style={styles.image} 
-          source={require('../assets/images/donuts.png')} 
+          source={require('../assets/images/cake.png')} 
         />
       </TouchableOpacity>
       <TouchableOpacity style={styles.button}>
         <Image 
           style={styles.image} 
-          source={require('../assets/images/donuts.png')} 
+          source={require('../assets/images/lolipop.png')} 
         />
       </TouchableOpacity>
     </View>

@@ -16,7 +16,7 @@ const MessageScreen = () => {
     useEffect(() => {
         const fetchData = async () => {
             try {
-                const response = await axios.get(`http://localhost:8080/messages`);
+                const response = await axios.get(`http://192.168.101.94:8080/messages`);
                 const formattedMessages = response.data.map((message: any) => ({
                     id: message.messageId,
                     user_id: message.user.userId,
@@ -34,7 +34,7 @@ const MessageScreen = () => {
 
     const sendMessage = async () => {
         try {
-            const response = await axios.post(`http://localhost:8080/messages`, {
+            const response = await axios.post(`http://192.168.101.94:8080/messages`, {
                 user: 2, // Replace with dynamic user
                 room: 2, // Replace with dynamic room
                 messageText: newMessage,
